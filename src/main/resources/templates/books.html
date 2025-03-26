@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>도서 목록</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+
+
+<main>
+    <div class="container py-4">
+        <header class="pb-3 mb-4 border-bottom">
+            <a href="/welcome.html" class="d-flex align-items-center text-body-emphasis text-decoration-none">
+                <svg width="32px" height="32px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 0C3.34315 0 2 1.34315 2 3V13C2 14.6569 3.34315 16 5 16H14V14H4V12H14V0H5Z" fill="#000000"/>
+                </svg>
+                <span class="fs-4">&nbsp;&nbsp; BookMarket</span>
+            </a>
+        </header>
+
+        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">도서 목록</h1>
+                <p class="col-md-8 fs-4">BookMarket</p>
+            </div>
+        </div>
+
+        <div class="row align-items-md-stretch text-center">
+            <div class="col-md-4" th:each="book:${bookslist}">
+               <h3 th:text="${book.getName()}"></h3>
+                <p th:text="${book.getAuthor()}"></p>
+                <p th:text="${book.getPublisher() + '|' + book.getReleaseDate()}"></p>
+                <p th:text="${book.getDescription()}" align="left"></p>
+                <p th:text="${book.getUnitprice()} + '원'"></p>
+            </div>
+        </div>
+
+        <footer class="pt-3 mt-4 text-body-secondary border-top">
+            <span class="text-body-secondary">&copy; 2025 BookMarket</span>
+        </footer>
+    </div>
+</main>
+</body>
+</html>

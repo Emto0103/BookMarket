@@ -25,15 +25,15 @@ public class SecurityConfig{
     }
 	
 
-	@Bean
-	protected UserDetailsService users() {		
-		UserDetails admin = User.builder()
-			.username("Admin")
-			.password(passwordEncoder().encode("Admin1234"))
-			.roles("ADMIN")
-			.build();
-		return new InMemoryUserDetailsManager(admin);
-	}
+//	@Bean
+//	protected UserDetailsService users() {
+//		UserDetails admin = User.builder()
+//			.username("Admin")
+//			.password(passwordEncoder().encode("Admin1234"))
+//			.roles("ADMIN")
+//			.build();
+//		return new InMemoryUserDetailsManager(admin);
+//	}
 	
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {	

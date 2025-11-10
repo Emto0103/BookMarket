@@ -19,7 +19,7 @@ public class BookRepositoryImpl implements BookRepository {
 
 	public BookRepositoryImpl() {	
 		Book book1 = new Book();
-		book1.setBookId("ISBN1234");
+		book1.setBookId("isbn0001");
 		book1.setName ("자바스크립트 입문");
 		book1.setUnitPrice(new BigDecimal(30000));
 		book1.setAuthor("조현영");
@@ -29,10 +29,10 @@ public class BookRepositoryImpl implements BookRepository {
 		book1.setCategory("IT전문서");
 		book1.setUnitsInStock(1000);
 		book1.setReleaseDate("2024/02/20");
-		book1.setFileName("ISBN1234.jpg");		
+		book1.setFileName("isbn0001.jpg");
 		
 		Book book2 = new Book();
-		book2.setBookId("ISBN1235");
+		book2.setBookId("isbn0002");
 		book2.setName ("파이썬의 정석");
 		book2.setUnitPrice(new BigDecimal(29800));
 		book2.setAuthor("조용주,임좌상");
@@ -42,10 +42,10 @@ public class BookRepositoryImpl implements BookRepository {
 		book2.setCategory("IT교육교재");
 		book2.setUnitsInStock(1000);
 		book2.setReleaseDate("2023/01/10");
-		book2.setFileName("ISBN1235.jpg");	
+		book2.setFileName("isbn0002.jpg");
 		
 		Book book3 = new Book();
-		book3.setBookId("ISBN1236");
+		book3.setBookId("isbn0003");
 		book3.setName ("안드로이드 프로그래밍");
 		book3.setUnitPrice(new BigDecimal(25000));
 		book3.setAuthor("송미영");
@@ -55,7 +55,7 @@ public class BookRepositoryImpl implements BookRepository {
 		book3.setCategory("IT교육교재");
 		book3.setUnitsInStock(1000);
 		book3.setReleaseDate("2023/06/30");
-		book3.setFileName("ISBN1236.jpg");
+		book3.setFileName("isbn0003.jpg");
 		
 		listOfBooks.add(book1);
 		listOfBooks.add(book2);

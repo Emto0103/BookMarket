@@ -1,5 +1,5 @@
 package com.springboot.domain;
 
-public class Role {
-
+public enum Role {
+    USER, ADMIN
 }

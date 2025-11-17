@@ -1,107 +1,61 @@
 package com.springboot.config;
 
+import com.springboot.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
+public class SecurityConfig {
 
 	@Bean
-	protected PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-	
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-//	@Bean
-//	protected UserDetailsService users() {
-//		UserDetails admin = User.builder()
-//			.username("Admin")
-//			.password(passwordEncoder().encode("Admin1234"))
-//			.roles("ADMIN")
-//			.build();
-//		return new InMemoryUserDetailsManager(admin);
-//	}
-	
-    @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {	
-    	
-    	http
-    	.csrf(AbstractHttpConfigurer::disable)
 
-		// 특정 URL에 대한 권한 설정.
-        .authorizeHttpRequests(
-        		authorizeRequests -> authorizeRequests            
-        		.requestMatchers("/books/add").hasRole("ADMIN" )
-				.requestMatchers("/order/list").hasRole("ADMIN" )
-        		.anyRequest().permitAll()
-        )
-        //.formLogin(Customizer.withDefaults());  
-       .formLogin(
-        	formLogin->formLogin    
-		    
-		    .loginPage("/login") // 사용자 정의 로그인 페이지
-		    .loginProcessingUrl("/login")
-		    .defaultSuccessUrl("/books/add")// 로그인 성공 후 이동 페이지
-			.defaultSuccessUrl("/order/list")// 관리자 로그인 성공 후 이동 페이지
-			.defaultSuccessUrl("/")// 일반 사용자 로그인 성공 후 이동 페이지
-		    .failureUrl("/loginfailed") // 로그인 실패 후 이동 페이지
- 			.usernameParameter("username")
- 			.passwordParameter("password")
- 			
-        )
-        
-    	.logout(
-    			logout -> logout
-    			.logoutUrl("/logout")             		
-		      .logoutSuccessUrl("/login")
-	    );
-		
-        return http.build();
-        
-    }
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-   
-    
-    
+		http
+				.csrf(AbstractHttpConfigurer::disable)
+				.authorizeHttpRequests(authorizeRequests -> authorizeRequests
+						.requestMatchers("/books/add").hasRole("ADMIN")
+						.requestMatchers("/order/list").hasRole("ADMIN")
+						.requestMatchers("/members/add", "/login", "/loginfailed",
+								"/css/**", "/js/**", "/images/**", "/home", "/").permitAll()
+						.anyRequest().permitAll()
+				)
+				.formLogin(formLogin -> formLogin
+						.loginPage("/login")
+						.loginProcessingUrl("/login")
+						.defaultSuccessUrl("/books", true)
+						.failureUrl("/loginfailed")
+						.usernameParameter("username")
+						.passwordParameter("password")
+				)
+				.logout(logout -> logout
+						.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+						.logoutSuccessUrl("/login")
+						.invalidateHttpSession(true)
+						.deleteCookies("JSESSIONID")
+				);
 
-   /* @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-    	return(web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    }
-    */
-    /*
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-    	 UserDetails user1 = User.withUsername("user1")
-    	            .password(passwordEncoder().encode("user1Pass"))
-    	            .roles("USER")
-    	            .build();
-    	        UserDetails user2 = User.withUsername("user2")
-    	            .password(passwordEncoder().encode("user2Pass"))
-    	            .roles("USER")
-    	            .build();
-    	            
-    	        UserDetails admin = User.withUsername("admin")
-    	            .password(passwordEncoder().encode("adminPass"))
-    	            .roles("ADMIN")
-    	            .build();
-    	       // return new InMemoryUserDetailsManager(user1, user2, admin);
-    	        return new InMemoryUserDetailsManager( admin);
-    }
-    */
-    
+		return http.build();
+	}
 
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
 }

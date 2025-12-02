@@ -1,0 +1,103 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>회원 가입</title>
+	<link href="/BookMarket/css/bootstrap.min.css" rel="stylesheet">
+	<script>
+		function checkPasswd(){
+			if (document.member.password.value != document.member.password_confirm.value) {
+				alert("비밀번호를 확인해주세요!");
+				return false;
+			}
+			document.member.submit();
+		}
+	</script>
+</head>
+<body>
+<div class="container py-4">
+	<th:block th:replace="~{module/header}"></th:block>
+
+	<div class="p-5 mb-4 bg-body-tertiary rounded-3">
+		<div class="container-fluid py-5">
+			<h1 class="display-5 fw-bold">회원 등록</h1>
+			<p class="col-md-8 fs-4">BookMarket</p>
+		</div>
+	</div>
+
+	<div class="row align-items-md-stretch">
+		<div class="container col-md-8">
+			<div th:if="${errorMessage}" class="alert alert-danger">
+				[[${errorMessage}]]
+			</div>
+
+			<form th:action="@{/members/add}" th:object="${memberFormDto}" name="member" method="post">
+				<legend>신규 회원 가입</legend>
+
+				<div class="mb-3 row">
+					<label class="col-sm-3 control-label">회원 ID</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" th:field="*{memberId}"/>
+						<p class="text-danger" th:errors="*{memberId}"></p>
+					</div>
+				</div>
+
+				<div class="mb-3 row">
+					<label class="col-sm-3 control-label">이름</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" th:field="*{name}"/>
+						<p class="text-danger" th:errors="*{name}"></p>
+					</div>
+				</div>
+
+				<div class="mb-3 row">
+					<label class="col-sm-3 control-label">비밀번호</label>
+					<div class="col-sm-6">
+						<input type="password" class="form-control" th:field="*{password}"/>
+						<p class="text-danger" th:errors="*{password}"></p>
+					</div>
+				</div>
+
+				<div class="mb-3 row">
+					<label class="col-sm-3 control-label">비밀번호 확인</label>
+					<div class="col-sm-6">
+						<input type="password" name="password_confirm" class="form-control"/>
+					</div>
+				</div>
+
+				<div class="mb-3 row">
+					<label class="col-sm-3 control-label">이메일</label>
+					<div class="col-sm-6">
+						<input type="email" class="form-control" th:field="*{email}"/>
+						<p class="text-danger" th:errors="*{email}"></p>
+					</div>
+				</div>
+
+				<div class="mb-3 row">
+					<label class="col-sm-3 control-label">전화번호</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" th:field="*{phone}"/>
+						<p class="text-danger" th:errors="*{phone}"></p>
+					</div>
+				</div>
+
+				<div class="mb-3 row">
+					<label class="col-sm-3 control-label">주소</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" th:field="*{address}"/>
+					</div>
+				</div>
+
+				<div class="mb-3 row">
+					<div class="col-sm-offset-3 col-sm-9">
+						<button type="button" onclick="checkPasswd()" class="btn btn-primary">등록</button>
+						<a href="/BookMarket/login" class="btn btn-secondary">취소</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<th:block th:replace="~{module/footer}"></th:block>
+</div>
+</body>
+</html>

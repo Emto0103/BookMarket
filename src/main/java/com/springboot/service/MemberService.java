@@ -29,18 +29,43 @@ public class MemberService implements UserDetailsService {
         }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+//    @Override
+//    public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+//        Member member = memberRepository.findByMemberId(memberId);
+//
+//        if (member == null) {
+//            throw new UsernameNotFoundException(memberId);
+//        }
+//
+//        return User.builder()
+//                .username(member.getMemberId())
+//                .password(member.getPassword())
+//                .roles(member.getRole().toString())
+//                .build();
+//    }
+@Override
+public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+    Member member = memberRepository.findByMemberId(memberId);
+
+    if (member == null) {
+        throw new UsernameNotFoundException(memberId);
+    }
+
+    return User.builder()
+            .username(member.getMemberId())
+            .password(member.getPassword())
+            .roles(member.getRole().toString())
+            .build();
+}
+
+    public Member getMemberByMemberId(String memberId) {
+        return memberRepository.findByMemberId(memberId);
+    }
+
+    public void deleteMember(String memberId) {
         Member member = memberRepository.findByMemberId(memberId);
-
-        if (member == null) {
-            throw new UsernameNotFoundException(memberId);
+        if (member != null) {
+            memberRepository.delete(member);
         }
-
-        return User.builder()
-                .username(member.getMemberId())
-                .password(member.getPassword())
-                .roles(member.getRole().toString())
-                .build();
     }
 }

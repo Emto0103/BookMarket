@@ -21,10 +21,20 @@ public class MemberController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+//    @GetMapping("/add")
+//    public String memberForm(Model model) {
+//        model.addAttribute("memberFormDto", new MemberFormDto());
+//        return "addMember";
+//    }
     @GetMapping("/add")
     public String memberForm(Model model) {
         model.addAttribute("memberFormDto", new MemberFormDto());
         return "addMember";
+    }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
     }
 
     @PostMapping("/add")
@@ -43,7 +53,7 @@ public class MemberController {
             return "addMember";
         }
 
-        return "redirect:/members";
+        return "redirect:/";
     }
 
     @GetMapping(value = "/update/{memeberId}")
